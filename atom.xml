@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://5mengqi.cc/"/>
-  <updated>2017-05-02T02:08:27.000Z</updated>
+  <updated>2017-05-02T02:12:25.000Z</updated>
   <id>http://5mengqi.cc/</id>
   
   <author>
@@ -19,8 +19,8 @@
     <title>谈谈MVC和MVVM</title>
     <link href="http://5mengqi.cc/blogs/talk-about-mvc-and-mvvm/"/>
     <id>http://5mengqi.cc/blogs/talk-about-mvc-and-mvvm/</id>
-    <published>2017-04-28T11:28:29.000Z</published>
-    <updated>2017-05-02T02:08:27.000Z</updated>
+    <published>2017-05-02T02:12:24.000Z</published>
+    <updated>2017-05-02T02:12:25.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="写在开头"><a href="#写在开头" class="headerlink" title="写在开头"></a>写在开头</h2><p>刚接触iOS这行时，对架构这些没什么概念，很多时候是为了实现功能，代码难免写得杂乱不堪，这5年积累让我认识到写代码简洁优雅、层次分明、思路清晰是非常重要的。</p>
 <h2 id="谈谈MVC"><a href="#谈谈MVC" class="headerlink" title="谈谈MVC"></a>谈谈MVC</h2><p>从做iOS开发开始，接触最多的就是MVC了，我对MVC的掌握是从白胡子老头的讲课中学习来的。首先我们要明确各层的职责，Model（模型层）主要是指数据模型对象，例如Person类，View（视图层）主要是指由视图控件构成的界面，Controller（控制器层）主要负责数据操作、数据在界面上呈现。单个MVC的结构图如下：</p>
