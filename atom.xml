@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://5mengqi.cc/"/>
-  <updated>2017-05-02T02:12:25.000Z</updated>
+  <updated>2017-05-09T16:01:40.000Z</updated>
   <id>http://5mengqi.cc/</id>
   
   <author>
@@ -14,6 +14,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>聊聊中介者模式</title>
+    <link href="http://5mengqi.cc/blogs/talk-about-the-mediator-pattern/"/>
+    <id>http://5mengqi.cc/blogs/talk-about-the-mediator-pattern/</id>
+    <published>2017-05-09T16:01:47.000Z</published>
+    <updated>2017-05-09T16:01:40.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="写在开头"><a href="#写在开头" class="headerlink" title="写在开头"></a>写在开头</h2><p>之所以想聊聊中介者模式，是因为在之前关于iOS组件化方案的争论中拜读了bang大神的总结，他文中详细的介绍了如何利用中介者模式来解决模块之间的调用依赖。</p>
+<h2 id="聊聊中介者模式"><a href="#聊聊中介者模式" class="headerlink" title="聊聊中介者模式"></a>聊聊中介者模式</h2><p>中介者模式：用一个对象来封装一系列对象的交互方式。中介者使各对象不需要显式地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。其类图如下：<br><img src="/images/mediator-pattern-class-diagram.png" alt=""></p>
+<p>图中描述的关系有，抽象Mediator会被ConcreteMediator实现，抽象Colleague会被ConcreteColleague1和ConcreteColleague2实现，抽象Colleague含有对抽象Mediator实例的引用，ConcreteMediator含有对ConcreteColleague1实例和ConcreteColleague2实例的引用。如果应用程序中只需要一个中介者，有时抽象的Mediator可以省略，一种可能的对象图如下：<br><img src="/images/mediator-pattern-obj-diagram.png" alt=""><br>在以下情形，自然会考虑使用这一模式：</p>
+<ul>
+<li>对象间的交互虽定义明确然而非常复杂，导致一组对象彼此相互依赖而且难以理解；</li>
+<li>因为对象引用了许多其他对象并与其通讯，导致对象难以复用；</li>
+<li>想要定制一个分布在多个类中的逻辑或行为，又不想生成太多子类。</li>
+</ul>
+<p>中介者模式也可能带来弊端，便是中介者类过于庞大而难以维护。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.amazon.cn/Objective-C%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93-iOS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%A7%A3%E6%9E%90-%E9%92%9F%E5%86%A0%E8%B4%A4/dp/B0065V3ALO/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1494327326&amp;sr=1-1&amp;keywords=Objective-C%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93" target="_blank" rel="external">《Objective-C编程之道iOS设计模式解析》</a><br><a href="http://blog.cnbang.net/tech/3080/" target="_blank" rel="external">iOS 组件化方案探索</a> by <a href="http://blog.cnbang.net/" target="_blank" rel="external">bang</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      之所以想聊聊中介者模式，是因为在之前关于iOS组件化方案的争论中拜读了bang大神的总结，他文中详细的介绍了如何利用中介者模式来解决模块之间的调用依赖。
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://5mengqi.cc/categories/ios/"/>
+    
+    
+      <category term="中介者模式" scheme="http://5mengqi.cc/tags/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>谈谈MVC和MVVM</title>

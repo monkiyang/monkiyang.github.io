@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="之所以想聊聊中介者模式，是因为在之前关于iOS组件化方案的争论中拜读了bang大神的总结，他文中详细的介绍了如何利用中介者模式来解决模块之间的调用依赖。"/>
+
+
+
+
+  <meta name="keywords" content="中介者模式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="MengQi Yang">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="http://5mengqi.cc/blogs/talk-about-the-mediator-pattern/"/>
+
+
+<meta name="description" content="之所以想聊聊中介者模式，是因为在之前关于iOS组件化方案的争论中拜读了bang大神的总结，他文中详细的介绍了如何利用中介者模式来解决模块之间的调用依赖。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聊聊中介者模式">
+<meta property="og:url" content="http://5mengqi.cc/blogs/talk-about-the-mediator-pattern/index.html">
+<meta property="og:site_name" content="MengQi Yang">
+<meta property="og:description" content="之所以想聊聊中介者模式，是因为在之前关于iOS组件化方案的争论中拜读了bang大神的总结，他文中详细的介绍了如何利用中介者模式来解决模块之间的调用依赖。">
+<meta property="og:image" content="http://5mengqi.cc/images/mediator-pattern-class-diagram.png">
+<meta property="og:image" content="http://5mengqi.cc/images/mediator-pattern-obj-diagram.png">
+<meta property="og:updated_time" content="2017-05-09T16:01:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="聊聊中介者模式">
+<meta name="twitter:description" content="之所以想聊聊中介者模式，是因为在之前关于iOS组件化方案的争论中拜读了bang大神的总结，他文中详细的介绍了如何利用中介者模式来解决模块之间的调用依赖。">
+<meta name="twitter:image" content="http://5mengqi.cc/images/mediator-pattern-class-diagram.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+  <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-93547748-1', 'auto');
+        ga('send', 'pageview');
+  </script>
+
+
+
+    <title> 聊聊中介者模式 - MengQi Yang </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">MengQi Yang</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          聊聊中介者模式
+        
+      </h1>
+
+      <time class="post-time">
+          May 10 2017
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <h2 id="写在开头"><a href="#写在开头" class="headerlink" title="写在开头"></a>写在开头</h2><p>之所以想聊聊中介者模式，是因为在之前关于iOS组件化方案的争论中拜读了bang大神的总结，他文中详细的介绍了如何利用中介者模式来解决模块之间的调用依赖。</p>
+<h2 id="聊聊中介者模式"><a href="#聊聊中介者模式" class="headerlink" title="聊聊中介者模式"></a>聊聊中介者模式</h2><p>中介者模式：用一个对象来封装一系列对象的交互方式。中介者使各对象不需要显式地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。其类图如下：<br><img src="/images/mediator-pattern-class-diagram.png" alt=""></p>
+<p>图中描述的关系有，抽象Mediator会被ConcreteMediator实现，抽象Colleague会被ConcreteColleague1和ConcreteColleague2实现，抽象Colleague含有对抽象Mediator实例的引用，ConcreteMediator含有对ConcreteColleague1实例和ConcreteColleague2实例的引用。如果应用程序中只需要一个中介者，有时抽象的Mediator可以省略，一种可能的对象图如下：<br><img src="/images/mediator-pattern-obj-diagram.png" alt=""><br>在以下情形，自然会考虑使用这一模式：</p>
+<ul>
+<li>对象间的交互虽定义明确然而非常复杂，导致一组对象彼此相互依赖而且难以理解；</li>
+<li>因为对象引用了许多其他对象并与其通讯，导致对象难以复用；</li>
+<li>想要定制一个分布在多个类中的逻辑或行为，又不想生成太多子类。</li>
+</ul>
+<p>中介者模式也可能带来弊端，便是中介者类过于庞大而难以维护。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.amazon.cn/Objective-C%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93-iOS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%A7%A3%E6%9E%90-%E9%92%9F%E5%86%A0%E8%B4%A4/dp/B0065V3ALO/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1494327326&amp;sr=1-1&amp;keywords=Objective-C%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93" target="_blank" rel="external">《Objective-C编程之道iOS设计模式解析》</a><br><a href="http://blog.cnbang.net/tech/3080/" target="_blank" rel="external">iOS 组件化方案探索</a> by <a href="http://blog.cnbang.net/" target="_blank" rel="external">bang</a></p>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+        <div class="post-tags">
+          
+            <a href="/tags/中介者模式/">中介者模式</a>
+          
+        </div>
+
+        
+        
+  <nav class="post-nav">
+    
+    
+      <a class="next" href="/blogs/talk-about-mvc-and-mvvm/">
+        <span class="next-text nav-default">谈谈MVC和MVVM</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
+    <div style="text-align:center;">
+        <button class="btn" id="load-disqus" onclick="disqus.load();">加载 Disqus 评论</button>
+    </div>
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2016 -
+    
+    2017
+    <span class="footer-author">MengQi Yang.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+<script type="text/javascript">
+  var disqus_shortname = 'monkiyang';
+  var disqus_identifier = 'blogs/talk-about-the-mediator-pattern/';
+
+  var disqus_title = "聊聊中介者模式";
+
+
+  var disqus = {
+    load : function disqus(){
+        if(typeof DISQUS !== 'object') {
+          (function () {
+          var s = document.createElement('script'); s.async = true;
+          s.type = 'text/javascript';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+          }());
+          $('#load-disqus').remove(); ///加载后移除按钮
+        }
+    }
+  }
+
+  
+    var disqus_config = function () {
+        this.page.url = disqus_url;
+        this.page.identifier = disqus_identifier;
+        this.page.title = disqus_title;
+    };
+  
+
+</script>
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>
