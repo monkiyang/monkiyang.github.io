@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://5mengqi.cc/"/>
-  <updated>2017-05-09T16:01:40.000Z</updated>
+  <updated>2017-05-10T05:51:22.000Z</updated>
   <id>http://5mengqi.cc/</id>
   
   <author>
@@ -19,8 +19,8 @@
     <title>聊聊中介者模式</title>
     <link href="http://5mengqi.cc/blogs/talk-about-the-mediator-pattern/"/>
     <id>http://5mengqi.cc/blogs/talk-about-the-mediator-pattern/</id>
-    <published>2017-05-09T16:01:47.000Z</published>
-    <updated>2017-05-09T16:01:40.000Z</updated>
+    <published>2017-05-11T05:51:47.000Z</published>
+    <updated>2017-05-10T05:51:22.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="写在开头"><a href="#写在开头" class="headerlink" title="写在开头"></a>写在开头</h2><p>之所以想聊聊中介者模式，是因为在之前关于iOS组件化方案的争论中拜读了bang大神的总结，他文中详细的介绍了如何利用中介者模式来解决模块之间的调用依赖。</p>
 <h2 id="聊聊中介者模式"><a href="#聊聊中介者模式" class="headerlink" title="聊聊中介者模式"></a>聊聊中介者模式</h2><p>中介者模式：用一个对象来封装一系列对象的交互方式。中介者使各对象不需要显式地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。其类图如下：<br><img src="/images/mediator-pattern-class-diagram.png" alt=""></p>
@@ -31,6 +31,7 @@
 <li>想要定制一个分布在多个类中的逻辑或行为，又不想生成太多子类。</li>
 </ul>
 <p>中介者模式也可能带来弊端，便是中介者类过于庞大而难以维护。</p>
+<h2 id="实践中介者模式"><a href="#实践中介者模式" class="headerlink" title="实践中介者模式"></a>实践中介者模式</h2><p>Demo地址是<a href="https://github.com/monkiyang/MediatorPatternGo" target="_blank" rel="external">https://github.com/monkiyang/MediatorPatternGo</a>，关键代码摘录如下：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// MKMediator.m</span></div><div class="line">...</div><div class="line">+ (<span class="built_in">UIViewController</span> *)viewControllerWithModuleClass:(<span class="built_in">NSString</span> *)moduleClass selector:(<span class="built_in">NSString</span> *)selector params:(<span class="built_in">NSDictionary</span> *)params &#123;</div><div class="line">    <span class="keyword">if</span> (moduleClass.length == <span class="number">0</span> || selector.length == <span class="number">0</span> || !params) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//target-action解除MKMediator对MKModuleX的感官依赖，运行时仍存在依赖</span></div><div class="line">    Class cls = <span class="built_in">NSClassFromString</span>(moduleClass);</div><div class="line">    SEL sel = <span class="built_in">NSSelectorFromString</span>(selector);</div><div class="line">    <span class="keyword">if</span> (!cls || !sel) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> ([cls respondsToSelector:sel]) &#123;</div><div class="line"><span class="meta">#pragma clang diagnostic push</span></div><div class="line"><span class="meta">#pragma clang diagnostic ignored <span class="meta-string">"-Warc-performSelector-leaks"</span></span></div><div class="line">        <span class="keyword">return</span> [cls performSelector:sel withObject:params];</div><div class="line"><span class="meta">#pragma clang diagnostic pop</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure></p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.amazon.cn/Objective-C%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93-iOS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%A7%A3%E6%9E%90-%E9%92%9F%E5%86%A0%E8%B4%A4/dp/B0065V3ALO/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1494327326&amp;sr=1-1&amp;keywords=Objective-C%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93" target="_blank" rel="external">《Objective-C编程之道iOS设计模式解析》</a><br><a href="http://blog.cnbang.net/tech/3080/" target="_blank" rel="external">iOS 组件化方案探索</a> by <a href="http://blog.cnbang.net/" target="_blank" rel="external">bang</a></p>
 ]]></content>
     
